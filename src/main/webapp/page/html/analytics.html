@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+</head>
+<body>
+<header class="main-header" style="background-image: url(../img/test.jpg)">
+	<div style="width:100%;height:200px"></div>
+</header>
+<nav class="navbar navbar-default row" >
+    <div class="col-lg-2 col-md-2"></div>
+    <div class="container-fluid col-lg-8 col-md-8">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav contents menu" >
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(1)">首页</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(2)">浏览查询</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn active" onclick="skinto(3)">分析报告</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(4)">数据分析</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn " onclick="skinto(5)">数据录入</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(6)">管理账号</button>
+                </li>
+                 <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="logout()">安全注销</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2"></div>
+</nav>
+<div class="row">
+    <div class="col-lg-offset-2 col-lg-3">幸福新农村分析报告</div>
+    <div class="col-lg-5 col-lg-offset-5">
+        <ul>
+            <li><a>111111111</a></li>
+            <li><a>111111111</a></li>
+
+        </ul>
+    </div>
+</div>
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+	vilidation();
+})
+</script>
+</html>

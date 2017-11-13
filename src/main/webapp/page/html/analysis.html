@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+    <style>
+      
+        #data_head_all button{
+        	margin-left:10px;
+        	border-radius:3px
+        }
+
+    </style>
+</head>
+<body>
+<header class="main-header" style="background-image: url(../img/test.jpg)">
+	<div style="width:100%;height:200px"></div>
+</header>
+<nav class="navbar navbar-default row" >
+    <div class="col-lg-2 col-md-2"></div>
+    <div class="container-fluid col-lg-8 col-md-8">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav contents menu" >
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(1)">首页</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(2)">浏览查询</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(3)">分析报告</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn active" onclick="skinto(4)">数据分析</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn " onclick="skinto(5)">数据录入</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(6)">管理账号</button>
+                </li>
+                 <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="logout()">安全注销</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2"></div>
+</nav>
+   <div class="row">
+    <div class="col-lg-3">
+        <ul class="nav nav-pills nav-stacked" id="parentList">
+            
+        </ul>
+   </div>
+   <div class="col-lg-9">
+       <ul class="nav nav-tabs" id="selectType">
+           <li role="presentation" class="active" id="forAll"><a href="javascript:skintotype(0)" >全省数据统计</a></li>
+           <li role="presentation" id="forAddress"><a href="javascript:skintotype(1)">区域数据统计</a></li>
+           <li role="presentation" id="forYear"><a href="javascript:skintotype(2)">年度数据统计</a></li>
+       </ul>
+       <div id="data_head_all" style="background-color: #e7e7e7;margin-top: 5px;border-radius: 6px">
+          
+       </div>
+       <div id="data_head_address" style="background-color: #e7e7e7;margin-top: 5px;display:none;border-radius: 6px">
+          <div id="selectYear" style="margin-top:5px;margin-bottom:5px">
+           <form class="navbar-form navbar-left">
+               <div class="form-group">
+                   <select class="form-control"  style="width:150px;" id="time" onchange="getthischardata()">
+                   	
+                   </select>
+               </div>
+           </form>   
+          </div>
+          <div id="data_address">
+          </div>
+       </div>
+       <div id="data_head_time" style="background-color: #e7e7e7;margin-top: 5px;display:none;border-radius: 6px">
+          <div id="selectAddress" style="margin-top:5px;margin-bottom:5px">
+           <form class="navbar-form navbar-left">
+               <div class="form-group">
+                   <select class="form-control"  style="width:150px;" id="address" onchange="getThisdata()">
+                   	
+                   </select>
+               </div>
+           </form>
+       
+          </div>
+          <div id="data_time">
+          </div>
+       </div>
+       <div id="head" style="background-color: #e7e7e7;text-align:center;height:60px;line-height:60px;bold:2px;font-size:20px ;margin-top:5px;border-radius: 6px"></div>
+       <div id="attr" style="background-color: #e7e7e7;text-align:center;height:60px;line-height:60px;margin-bottom:5px"></div>
+       <div style="height:800px;margin-top: 5px;background-color: #e7e7e7;;border-radius: 6px">
+       		<div id="data" style="height:600px;width:800px;margin:auto"></div>
+       </div>
+	
+   </div>
+</div>
+
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/echart.js"></script>
+<script>
+/*
+ * 开始执行的部分
+ */
+var local_type=0;
+var local_parent_id=1
+var local_info_id=0;
+$(function(){
+	$.ajax({
+        url:totalUrl+"/login/validLogin",
+        type:"POST",
+        dataType:"JSON",
+        data:{},
+        async:false,
+        success:function(data){
+        if(data.userInfo){
+           	property=data.userInfo.property;
+           	if(property==2){
+           		$("#adduser").css("display","none");
+           		$("#addinput").css("display","none");
+           	}
+           	if(property==1){
+           		$("#adduser").css("display","none");
+           	}
+           	getAnalysisParentList();
+        	getShowItems(1,0);
+        }else{
+        	alert("您尚未登录");
+            window.location.href="login.html";
+        }
+    }
+});
+	
+})
+/*
+ * 获取按钮信息
+ */
+ 
+function getAnalysisParentList(){	 
+	 $.ajax({
+       url:totalUrl+"/login/getParentList",
+       type:"POST",
+       dataType:"JSON",
+       data:{},
+       async:false,
+       success:function(data){
+           if(data){
+        	   handlerAnalysisList(data.result,0);	
+           }else{
+               window.location.href="login.html";
+           }
+       }
+   });
+}
+function handlerAnalysisList(data,num){
+	 var url="";
+	  $.each(data,function(n,value){
+	  		var id=value.id;
+	  		var name=value.name;
+	  		if(n==num){
+	  			url+="<li role='presentation' class='active' id='"+id+"_parent'><a href='javascript:getShowItems("+id+",0)'>"+name+"</a></li>";
+	  		}else{
+	  			url+="<li role='presentation' id='"+id+"_parent'><a href='javascript:getShowItems("+id+",0)'>"+name+"</a></li>";
+	  		}
+	  		
+	  });
+	  $("#parentList").html(url);
+}
+function skintotype(type){
+	local_type=type
+	styleType(type)
+	getShowItems(local_parent_id,type)
+}
+function styleType(type){
+	$("#selectType li").removeClass("active");
+	if(type==0){
+		$("#forAll").addClass("active")
+		$("#forAddress").removeClass("active")
+		$("#forYear").removeClass("active")
+	}
+	if(type==1){
+		$("#forAll").removeClass("active")
+		$("#forAddress").addClass("active")
+		$("#forYear").removeClass("active")
+	}
+	if(type==2){
+		$("#forAll").removeClass("active")
+		$("#forAddress").removeClass("active")
+		$("#forYear").addClass("active")
+	}
+}
+
+function getShowItems(parent_id,type){
+	local_info_id=0;
+	local_type=type
+	local_parent_id=parent_id
+	$("#parentList li").removeClass("active")
+	$("#"+local_parent_id+"_parent").addClass("active");
+	$.ajax({
+        url:totalUrl+"/show/getShowButton",
+        type:"GET",
+        dataType:"JSON",
+        data:{
+        	"parent_id":parent_id,
+        	"type":type
+        },
+        async:false,
+        success:function(data){
+        	var result=data.result
+	        if(result){
+	        	handleButtonData(data.result,type);
+	        }else{
+	        	alert("暂无数据")
+	        }
+   		 }
+	});
+}
+/*
+ * 处理按钮数据
+ */
+function handleButtonData(data,type){
+	styleType(type)
+	if(type==0){
+		handlerButtonAll(data)
+		$("#data_head_all").css("display","")
+		$("#data_head_address").css("display","none")
+		$("#data_head_time").css("display","none")
+	}
+	if(type==1){
+		handlerButtonYear(data)
+		$("#data_head_all").css("display","none")
+		$("#data_head_address").css("display","")
+		$("#data_head_time").css("display","none")
+	}
+	if(type==2){
+		handlerButtonAddress(data)
+		$("#data_head_all").css("display","none")
+		$("#data_head_address").css("display","none")
+		$("#data_head_time").css("display","")
+	}
+	
+}
+/*
+ * 按照不同的选项处理按钮数据
+ */
+function handlerButtonAll(data){
+	var url=""
+	if(data.length==0){
+		alert("暂无数据");
+	}
+	$.each(data,function(n,value){
+		var id=value.id;
+		var name=value.name;
+		url+="<button class='btn btn-default navbar-btn' style='border-radius:6px' onclick='getChartData("+id+")'>"+name+"</button>"
+	})
+	$("#data_head_all").html(url);
+}
+/*
+ * 按地区显示，按时间查询
+ */
+function handlerButtonYear(data){
+	var years=data.year;
+	var data_button=data.data
+	if(data_button.length==0){
+		alert("暂无数据")
+	}
+	var url=""
+	$.each(data_button,function(n,value){
+		var id=value.id;
+		var name=value.name;
+		url+="<button class='btn btn-default navbar-btn' style='border-radius:6px;margin-left:5px' onclick='getChartData("+id+")'>"+name+"</button>"
+	})
+	$("#data_address").html(url);
+	var url1="<option value='0'>请选择年份</option>"
+		$.each(years,function(n,value){
+			var id=value.id;
+			var name=value.name;
+			url1+="<option value='"+id+"'>"+name+"</option>"
+		})
+	$("#time").html(url1);
+}
+/*
+ * 按时间显示，但是按地区查询
+ */
+function handlerButtonAddress(data){
+	var addresses=data.address;
+	var data_button=data.data
+	if(data_button.length==0){
+		alert("暂无数据")
+	}
+	var url=""
+	$.each(data_button,function(n,value){
+		var id=value.id;
+		var name=value.name;
+		url+="<button class='btn btn-default navbar-btn' style='border-radius:6px;margin-left:5px'  onclick='getChartData("+id+")'>"+name+"</button>"
+	})
+	$("#data_time").html(url);
+	var url1="<option value='0'>请选择地区</option>"
+	$.each(addresses,function(n,value){
+		var id=value.id;
+		var name=value.name;
+		url1+="<option value='"+id+"'>"+name+"</option>"
+	})
+	$("#address").html(url1);
+}
+
+/*
+ * 获取图标显示的数据
+ */
+function getChartData(info_id){
+	if(info_id==0){
+		return ;	
+	}
+	local_info_id=info_id
+	var year=0;
+	var address=0;
+	if(local_type==1){
+		year=$("#time").val();
+	}
+	if(local_type==2){
+		address=$("#address").val();
+	}	
+	$.ajax({
+        url:totalUrl+"/show/getChartData",
+        type:"GET",
+        dataType:"JSON",
+        data:{
+        	"info_id":info_id,
+        	"type":local_type,
+        	"year":year,
+        	"address_id":address
+        },
+        async:false,
+        success:function(data){
+	        if(data.result){
+	        	showChart(data.result)
+	        }else{
+	        	alert("暂无数据")
+	        }
+   		 }
+	});
+}
+/*
+ * 显示图标部分
+ */
+ 
+function showChart(data){
+	var myChart = echarts.init(document.getElementById('data'));
+	var head=data.title.text;
+	var attr=data.attr;
+	$("#head").html(head);
+	$("#attr").html(attr);
+	var option={};
+	option.title={};
+	option.tooltip={};
+	option.legend=data.legend;
+	option.xAxis=data.xAxis;
+	option.yAxis={};
+	option.series=data.series;
+/* 	alert(JSON.stringify(option)) */
+	myChart.setOption(option,true); 
+}
+
+function getthischardata(){
+	getChartData(local_info_id)
+}
+
+    
+</script>
+<script type="text/javascript">
+</script>
+</html>

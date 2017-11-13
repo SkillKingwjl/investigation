@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加地区</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+    <style>
+        .content li{
+            margin-left: 30px;
+        }
+
+    </style>
+</head>
+<body>
+<header class="main-header" style="background-image: url(../img/test.jpg)">
+	<div style="width:100%;height:200px"></div>
+</header>
+<nav class="navbar navbar-default row" >
+    <div class="col-lg-2 col-md-2"></div>
+    <div class="container-fluid col-lg-8 col-md-8">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav contents menu" >
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(1)">首页</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(2)">浏览查询</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(3)">分析报告</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(4)">数据分析</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn active" onclick="skinto(5)">数据录入</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(6)">管理账号</button>
+                </li>
+                 <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="logout()">安全注销</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2"></div>
+</nav>
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-2 " style="margin-top:100px">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="id" class="col-sm-2 control-label">地区编号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="id" placeholder="编号">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="city" class="col-sm-2 control-label">所在市</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="city" placeholder="城市">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="county" class="col-sm-2 control-label">所在县</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="county" placeholder="县">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="village" class="col-sm-2 control-label">所在乡</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="village" placeholder="乡">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="country" class="col-sm-2 control-label">所在村</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="country" placeholder="村">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default" onclick="addLocal()">确认</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/common.js"></script>
+<script type="text/javascript">
+    $(function(){
+        vilidation();
+    });
+    function addLocal(){
+        var id=$("#id").val();
+        var city=$("#city").val();
+        var county=$("#county").val();
+        var village=$("#village").val();
+        var country=$("#country").val();
+        if(!id){
+            alert("编号不能为空");
+            return;
+        }
+        if(!city){
+            alert("城市不能为空");
+            return;
+        }
+        if(!county){
+            alert("县不能为空");
+            return;
+        }
+        if(!village){
+            alert("乡不能为空");
+            return;
+        }
+        if(!country){
+            alert("村不能为空");
+            return;
+        }
+        $.ajax({
+            url:totalUrl+"/login/addlocal",
+            type:"POST",
+            dataType:"JSON",
+            data:{
+                "id":parseInt(id),
+                "city":city,
+                "county":county,
+                "village":village,
+                "country":country
+            },
+            success:function(data){
+                if(data.result==0){
+                    alert("添加成功");
+                    window.location.href=encodeURI("AddData.html?"+city+"&"+county+"&"+village+"&"+country);
+                }else if(data.result==1){
+                    alert("编号或地理位置重复");
+                }else if(data.result==2){
+                    alert("编号或者地理位置为空");
+                }else{
+                    alert("添加失败");
+                }
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+    <style>
+        .container{
+            border:1px solid #ccc;
+            border-color: #e7e7e7;
+            width:80%;
+            height:500px;
+            matgin-left:10%;
+            border-radius:10px;
+            overflow:scroll
+        }
+    </style>
+</head>
+<body>
+<header class="main-header" style="background-image: url(../img/test.jpg)">
+	<div style="width:100%;height:200px"></div>
+</header>
+<nav class="navbar navbar-default row" >
+    <div class="col-lg-2 col-md-2"></div>
+    <div class="container-fluid col-lg-8 col-md-8">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav contents menu" >
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(1)">首页</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(2)">浏览查询</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(3)">分析报告</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(4)">数据分析</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn active " onclick="skinto(5)">数据录入</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(6)">管理账号</button>
+                </li>
+                 <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="logout()">安全注销</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2"></div>
+</nav>
+
+<div class="container" id="container">
+
+</div>
+<div style="margin-top:20px">
+    <div class="col-sm-8 col-sm-offset-1" style="margin-top:8px;">
+        <input type="text" class="form-control" id="path" readonly>
+    </div>
+    <input type="file" id="file1" onchange="doChange(this);" name="file1" class="file" style="display:none">
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-default navbar-btn" onclick="file1.click()" style="float: right">选择</button>
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-default navbar-btn" onclick="handleExcel()" style="float: right">提交</button>
+    </div>
+</div>
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/ajaxfileupload.js"></script>
+<script src="../js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+    vilidation();
+})
+function doChange(files){
+    var path=document.getElementById("file1").value;
+    $("#path").val(path);
+    $.ajaxFileUpload({
+        url: totalUrl+"/login/upload", //用于文件上传的服务器端请求地址
+        secureuri: false, //是否需要安全协议，一般设置为false
+        fileElementId: 'file1', //文件上传域的ID
+        dataType: 'json', //返回值类型 一般设置为json
+        success: function (data, status){
+            if(data.result==2){
+            	  alert("导入失败");
+            }else{
+            	handleexcel(data.result);
+            }
+        },
+        error: function (data, status, e)//服务器响应失败处理函数
+        {
+            alert(e);
+        }
+    })
+}
+function handleexcel(data){
+	console.log(data)
+	var url="<table class='table table-bordered table-hover table-responsive'>"
+	$.each(data,function(n,value){
+		url+="<tr>"
+		$.each(value.list,function(n,dd){
+			url+="<td style='width:150px'>"+dd+"</td>"
+		})
+		url+="</tr>"
+	})
+	url+="</table>"
+	$("#container").html(url);
+}
+function handleExcel(){
+	var path= $("#path").val();
+	path=path.substring(path.lastIndexOf("\\")+1)
+	if(!path){
+		alert("文件不存在");
+		return;
+	}
+	$.ajax({
+        url:totalUrl+"/login/handlerFile",
+        type:"POST",
+        dataType:"JSON",
+        data:{
+        	"path":path
+        },
+        async:false,
+        success:function(data){
+            if(data.result==1){
+            	alert("处理成功，请稍后查看");
+            	
+            }else if(data.result==4){
+            	alert("文件不存在");
+            }
+            window.location.reload();
+        }
+      });
+}
+
+
+</script>
+</html>

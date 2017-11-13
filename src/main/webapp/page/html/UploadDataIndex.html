@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+</head>
+<body>
+<header class="main-header" style="background-image: url(../img/test.jpg)">
+	<div style="width:100%;height:200px"></div>
+</header>
+<nav class="navbar navbar-default row" >
+    <div class="col-lg-2 col-md-2"></div>
+    <div class="container-fluid col-lg-8 col-md-8">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav contents menu" >
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(1)">首页</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(2)">浏览查询</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(3)">分析报告</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(4)">数据分析</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn active" onclick="skinto(5)">数据录入</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(6)">管理账号</button>
+                </li>
+                 <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="logout()">安全注销</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2"></div>
+</nav>
+    <div class="container">
+        <h2>录入须知:</h2>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                jscjdkshcdschsdcdscjlsdcdscjsdcdsc
+                hsdchsudchiusdchsduchosdchosdchodschosdchdsch
+                jscjdkshcdschsdcdscjlsdcdscjsdcdsc
+                hsdchsudchiusdchsduchosdchosdchodschosdchdsch
+                jscjdkshcdschsdcdscjlsdcdscjsdcdsc
+                hsdchsudchiusdchsduchosdchosdchodschosdchdsch
+                jscjdkshcdschsdcdscjlsdcdscjsdcdsc
+                hsdchsudchiusdchsduchosdchosdchodschosdchdsch
+                jscjdkshcdschsdcdscjlsdcdscjsdcdsc
+                hsdchsudchiusdchsduchosdchosdchodschosdchdsch
+
+            </div>
+        </div>
+
+        <nav class="navbar navbar-default" style="margin-top:150px">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="sss">
+                  <!--   <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <select class="form-control" style="width:150px">
+                            </select>
+                        </div>
+                    </form> -->
+                    <button type="button" id="inputhand" class="btn btn-default navbar-btn" style="width:150px;margin-left:150px" onclick="skintoSelf()">
+                    	手动输入
+                    </button>
+                    <button type="button" id="inputword" class="btn btn-default navbar-btn" style="width:150px ;margin-left:150px" onclick="skintoExcel()">
+                    	导入文件
+                    </button>
+                    <button type="button" id="inputaddress"class="btn btn-default navbar-btn" style="width:150px ;margin-left:150px" onclick="skintoAddress()">
+                    	录入地址
+                    </button> 
+
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+	            url:totalUrl+"/login/validLogin",
+	            type:"POST",
+	            dataType:"JSON",
+	            data:{},
+	            async:false,
+	            success:function(data){
+	            if(data.userInfo){
+	               	property=data.userInfo.property;
+	               	if(property==2){
+	               		$("#adduser").css("display","none");
+	               		$("#addinput").css("display","none");
+	               	}
+	               	if(property==1){
+	               		$("#adduser").css("display","none");
+	               		$("#inputhand").css("display","none");
+	               		$("#inputword").css("display","none");
+	               	}
+                }else{
+                	alert("您尚未登录");
+                    window.location.href="login.html";
+                }
+            }
+        });
+	})
+	function skintoSelf(){
+		 window.location.href="AddData.html";	
+	}
+	function skintoExcel(){
+	 	window.location.href="UploadExcel.html";	
+	}
+	function skintoAddress(){
+		window.location.href="addlocation.html";
+	}
+</script>
+</html>

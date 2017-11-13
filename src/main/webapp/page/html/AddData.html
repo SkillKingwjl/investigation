@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/page.css" rel="stylesheet">
+</head>
+<body>
+<header class="main-header" style="background-image: url(../img/test.jpg)">
+	<div style="width:100%;height:200px"></div>
+</header>
+<nav class="navbar navbar-default row" >
+    <div class="col-lg-2 col-md-2"></div>
+    <div class="container-fluid col-lg-8 col-md-8">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav contents menu" >
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(1)">首页</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(2)">浏览查询</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(3)">分析报告</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(4)">数据分析</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn active" onclick="skinto(5)">数据录入</button>
+                </li>
+                <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(6)">管理账号</button>
+                </li>
+                 <li class="nav-current">
+                    <button type="button" class="btn btn-default navbar-btn" onclick="logout()">安全注销</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2"></div>
+</nav>
+    <div class="row">
+     <div class="col-lg-3">
+       	<ul class="nav nav-pills nav-stacked">
+       		<li role="presentation">
+                   <select class="form-control" id="setYear">
+                       
+                   </select>
+               </li>
+       	</ul>
+           <ul class="nav nav-pills nav-stacked" id="parentList">
+
+           </ul>
+    </div>
+    <div class="col-lg-9">
+         <nav class="navbar navbar-default">
+                <div class="container-fluid" id="sss" >
+                    <div class="collapse navbar-collapse" >
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <select class="form-control" style="width:150px;" id="cityList" onchange="getCounty()">
+                                </select>
+                            </div>
+                        </form>
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <select class="form-control" style="width:150px;" id="countyList" onchange="getVillage()">
+                                	<option>请选择县</option>
+                                </select>
+                            </div>
+                        </form>
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <select class="form-control"  style="width:150px;" id="villageList" onchange="getCountry()">
+                                	<option>请选择乡</option>
+                                </select>
+                            </div>
+                        </form>
+						<form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <select class="form-control"  style="width:150px;" id="countryList" onchange="getThisdata()">
+                                	<option>请选择村</option>
+                                </select>
+                            </div>
+                        </form>
+                       
+                        <!-- <button class="btn btn-default right" onclick="changeToAdd()"style="margin-top:8px">新增</button>
+                		<button class="btn btn-default right" onclick="changeToUpdate()" style="margin-top:8px">修改</button> -->
+                    </div>
+                    </div>
+                    <div class="container-fluid" id="kkk" style="display:none" >
+                     <div class="collapse navbar-collapse" >
+                     <!--  <form class="navbar-form navbar-left">
+                            <input class="form-control"  style="width:150px;" id="newcity" />&nbsp;&nbsp;&nbsp;地区编号
+                        </form> -->
+                     	<form class="navbar-form navbar-left">
+                            <input class="form-control"  style="width:150px;" id="newcity" />&nbsp;&nbsp;&nbsp;市
+                        </form>
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <input class="form-control"  style="width:150px;" id="newcounty" />&nbsp;&nbsp;&nbsp;县
+                            </div>
+                        </form>
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <input class="form-control"  style="width:150px;" id="newvillage" />&nbsp;&nbsp;&nbsp;乡
+                            </div>
+                        </form>
+						<form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <input class="form-control"  style="width:150px;" id="newcountry" />&nbsp;&nbsp;&nbsp;村
+                            </div>
+                        </form>
+                       <!--  <button class="btn btn-default right" onclick="refresh()" style="margin-top:8px">刷新</button> -->
+                     </div>
+                     
+                </div>
+                
+             </nav>
+		<div id="data">
+		
+		</div>
+       <button type="button" class="btn btn-default right" style="width:150px" onclick="addData()" id="savedata">保存</button>
+    </div>
+</div>
+
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/common.js"></script>
+<script type="text/javascript">
+    var status=0;
+	var local_parent=1;
+	$(function(){
+        $.ajax({
+            url:totalUrl+"/login/validLogin",
+            type:"POST",
+            dataType:"JSON",
+            data:{},
+            async:false,
+            success:function(data){
+                if(data.userInfo){
+                    property=data.userInfo.property;
+                    if(property==1){
+                        $("#adduser").css("display","none");
+                        $("#addinput").css("display","none"); 
+                        $("#sss").css("display","none");
+                        $("#kkk").css("display","");
+                    }
+                    if(property==0){
+                    	$("#sss").css("display","");
+                        $("#kkk").css("display","none");
+                        status=1;
+                    }
+                    if(property==2){
+                    	window.location.href="login.html"
+                    }
+                    handlerURL();
+                    getYear();
+                    getParentList();
+                    getdata(local_parent)
+
+                }else{
+                    alert("您尚未登录");
+                    window.location.href="login.html";
+                }
+            }
+        });
+	});
+	function handlerURL(){
+		var origin_city="";
+		var url =decodeURI(location.href) ;
+		if(url.indexOf("?")>-1){
+			var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+			origin_city=paraString[0];
+			origin_county=paraString[1]
+			origin_village=paraString[2]
+			origin_country=paraString[3]
+			if(property==0){
+				 $("#countyList").html("<option>"+origin_county+"</option>");
+			     $("#villageList").html("<option>"+origin_village+"</option>");
+			     $("#countryList").html("<option>"+origin_country+"</option>");
+			}
+	        if(property==1){
+	        	$("#newcity").val(origin_city);
+	            $("#newcounty").val(origin_county);
+	            $("#newvillage").val(origin_village);
+	            $("#newcountry").val(origin_country);
+	            $("#kkk input").attr("readonly","readonly")
+	        }
+		}
+		if(property==0){
+			getCity(origin_city);
+		}
+	}
+	function getdata(parent_id){
+		local_parent=parent_id;
+		var city="";
+		var county="";
+		var village="";
+		var country="";
+		if(property==0){
+			city=$("#cityList option:selected").text();
+			county=$("#countyList option:selected").text();
+		    village=$("#villageList option:selected").text();
+			country=$("#countryList option:selected").text();
+			if(!city||city.indexOf('请选择')>-1){
+				city="";
+			}
+			if(!county||county.indexOf('请选择')>-1){
+				county="";
+			}
+			if(!village||village.indexOf('请选择')>-1){
+				village="";
+			}
+			if(!country||country.indexOf('请选择')>-1){
+				country="";
+			}
+		}else{
+			city=$("#newcity").val();
+			county=$("#newcounty").val();
+			village=$("#newvillage").val();
+			country=$("#newcountry").val();
+		}
+		 var year=$("#setYear option:selected").text();
+		 if(year==""){
+				year=0;
+			}
+		 $.ajax({
+            url:totalUrl+"/login/getAddColumn",
+            type:"POST",
+            dataType:"JSON",
+            async: false,
+            data:{
+            	"parent_id":parent_id,
+            	"city":city,
+            	"county":county,
+            	"village":village,
+            	"country":country,
+            	"year":year
+            },
+            success:function(data){
+                if(data.result){
+                	var content=data.result;
+                	var flag=content.flag;
+                	if(flag==3){
+                		alert("您没有权限执行此功能");
+                		window.location.href="content.html";
+                	}else{
+                		handleColumn(content.list,flag);
+    	                $("li[id*=_parent]").attr("class","");
+    	                $("#"+parent_id+"_parent").attr("class","active");
+                	}
+                }else{
+                   alert("暂无数据")
+                }
+            }
+        });
+	
+	}	
+	function handleColumn(data,flag){
+		var value_flag=0;
+		var url="<table class='table table-bordered table-hover table-responsive'><tr>";
+			url+="<th>表格属性</th><th>属性详情</th><th>属性值</th></tr>";
+		 $.each(data,function(n,value){
+		 
+		  		var id=value.id;
+		  		var parent_id=0;
+		  		if(flag==1){
+		  			parent_id=value.type;
+		  		}else{
+		  			parent_id=value.parent_id;
+		  		}
+		  		var name=value.name;
+		  		var attr=value.attribuate;
+		  		url+="<tr><td>"+name+"</td><td>"+attr+"</td><td>";
+		  		if(flag==1){
+		  			var result=value.result;
+			  		if(!result){
+			  			result="";
+			  		}else{
+			  			value_flag=1;
+			  		}
+		  			url+="<input type='text' id='"+id+"_"+flag+"' value='"+result+"'>";
+		  		}else{
+		  			url+="<input type='text' id='"+id+"_"+flag+"'>";
+		  		}
+		  		
+		  		url+="</td></tr>";
+		  });
+		  url+="</table>"
+		  $("#data").html(url);
+		  if(value_flag){
+			  $("#data input").attr("readonly","readonly");
+			  $("#savedata").css("display","none");
+		  }else{
+			  $("#savedata").css("display","");
+		  }
+	}
+	
+	function addData(){
+		var data=[];
+		var list=$("input[type='text']");
+		$.each(list,function(n,ss){
+			var ids=ss.id;
+			var value=ss.value;
+			var id=ids.split("_")[0];
+			var flag=ids.split("_")[1];
+			var items={"id":parseInt(id),"value":value,"flag":parseInt(flag)};
+			data.push(items);			
+		});
+		if(!data){
+			alert("您没有填写任何内容")
+			return
+		}	
+		var url=totalUrl+"/login/addData"
+        var city="";
+		var county="";
+        var village="";
+        var country="";
+        if(property==0){
+            city=$("#cityList option:selected").text();
+            county=$("#countyList option:selected").text();
+            village=$("#villageList option:selected").text();
+            country=$("#countryList option:selected").text();
+        }else{
+            city=$("#newcity").val();
+            county=$("#newcounty").val();
+            village=$("#newvillage").val();
+            country=$("#newcountry").val();
+        }
+
+		if(!city||city.indexOf('请选择')>-1){
+			city="";
+		}
+		if(!county||county.indexOf('请选择')>-1){
+			county="";
+		}
+		if(!village||village.indexOf('请选择')>-1){
+			village="";
+		}
+		if(!country||country.indexOf('请选择')>-1){
+			country="";
+		}
+        if(!city){
+            alert("城市不能为空");
+            return;
+        }
+        if(!county){
+            alert("县不能为空");
+            return;
+        }
+        if(!village){
+            alert("乡不能为空");
+            return;
+        }
+        if(!country){
+            alert("村不能为空");
+            return;
+        }
+        var year=$("#setYear option:selected").text()
+
+		if(year==""){
+			year=0;
+		}
+		$.ajax({
+            url:url,
+            type:"POST",
+            dataType:"JSON",
+            data:{
+            	"data":JSON.stringify(data),
+            	"city":city,
+            	"county":county,
+            	"village":village,
+            	"country":country,
+            	"parent_id":local_parent,
+            	"year":year
+            },
+            success:function(data){
+                if(data.result==1){
+                	if(status==0){
+                		alert("添加成功");
+                		/* getdata(local_parent);	 */
+                		$("#data input").attr("readonly","readonly")
+                	}else{
+                		alert("录入成功");
+                	}
+                }else if(data.result==2){
+                   alert("请登录")
+                   window.location.href="login.html";
+                }else if(data.result==3){
+                	alert(" 请录入完整的地址");
+                }else if(data.result==4){
+                	alter("不存在该地区")
+                }
+            }
+        });
+	}
+	function getCity(origin_city){
+		$.ajax({
+            url:totalUrl+"/login/getCity",
+            type:"POST",
+            dataType:"JSON",
+            data:{},
+            async:false,
+            success:function(data){
+                if(data){
+               	  handleCity(data.result,"cityList",origin_city);	
+                }
+            }
+        });
+	}
+	function getCounty(){
+		var city=$("#cityList option:selected").text();
+		if(!city){
+			return 
+		}
+		$.ajax({
+            url:totalUrl+"/login/getCounty",
+            type:"POST",
+            dataType:"JSON",
+            data:{
+            	"city":city
+            },
+            async:false,
+            success:function(data){
+                if(data){
+               	  handleCity(data.result,"countyList");	
+                }
+            }
+        });
+	}
+	function getVillage(){
+		var county=$("#countyList option:selected").text();
+		if(!county){
+			return 
+		}
+		$.ajax({
+            url:totalUrl+"/login/getVillage",
+            type:"POST",
+            dataType:"JSON",
+            data:{
+            	"county":county
+            },
+            async:false,
+            success:function(data){
+                if(data){
+               	  handleCity(data.result,"villageList");	
+                }
+            }
+        });
+	}
+	function getCountry(){
+		var village=$("#villageList option:selected").text();
+		if(!village){
+			return 
+		}
+		$.ajax({
+            url:totalUrl+"/login/getCountry",
+            type:"POST",
+            dataType:"JSON",
+            data:{
+            	"village":village
+            },
+            async:false,
+            success:function(data){
+                if(data){
+               	  handleCity(data.result,"countryList");	
+                }
+            }
+        });
+	}
+	function handleCity(data,id,origin_city){
+		var url=""
+		if(id=="cityList"){
+			url+="<option>请选择市</option>"
+		}else if(id=="countyList"){
+			url+="<option>请选择县</option>"
+			$("#villageList").html("<option>请选择乡</option>");
+	        $("#countryList").html("<option>请选择村</option>");
+		}else if(id=="villageList"){
+			url+="<option>请选择乡</option>"
+			$("#countryList").html("<option>请选择村</option>");
+		}else{
+			url+="<option>请选择村</option>"
+		}
+		$.each(data,function(n,value){
+		  		var name="";
+		  		if(id=="cityList"){
+					name=value.city
+				}else if(id=="countyList"){
+					name=value.county
+				}else if(id=="villageList"){
+					name=value.village
+				}else{
+					name=value.country
+				}				
+		  		if(name){
+		  			if(origin_city&&origin_city==name){
+		  				url+="<option selected>"+name+"</option>";
+		  			}else{
+		  				url+="<option>"+name+"</option>";
+		  			}
+		  				
+		  		}
+		  });
+		  $("#"+id).html(url);
+		  getThisdata()
+	}
+	function getThisdata(){
+		 getdata(local_parent);
+	}
+	function changeToAdd(){
+		status=0;
+		$("#newcity").val("");
+		$("#newcounty").val("");
+		$("#newvillage").val("");
+		$("#newcountry").val("");
+		$("#kkk").css("display","");
+		$("#sss").css("display","none")
+	}
+	function changeToUpdate(){
+		 status=1;
+		 getCity();
+		 $("#kkk").css("display","none");
+		 $("#sss").css("display","");
+	}
+	   
+</script>
+</html>
