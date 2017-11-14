@@ -144,12 +144,7 @@ public class ShowController extends Controller {
 		dataMap.put("type", "category");
 		dataMap.put("boundaryGap", true);
 		dataMap.put("data", dataName);
-//		Map<String,Object> dataMap1=new HashMap<String,Object>();
-//		dataMap1.put("type", "category");
-//		dataMap1.put("boundaryGap", true);
-//		dataMap1.put("data", dataName);
 		xAxis.add(dataMap);
-//		xAxis.add(dataMap1);
 		map.put("xAxis", xAxis);
 		List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 		Map<String,Object> seriesData=new HashMap<String,Object>();
@@ -157,17 +152,10 @@ public class ShowController extends Controller {
 		seriesData.put("type", "bar");
 		seriesData.put("data", data);
 		seriesData.put("itemStyle",handleDataItemsStyle(1));
-//		Map<String,Object> seriesData1=new HashMap<String,Object>();
-//		seriesData1.put("name", attr);
-//		seriesData1.put("type", "bar");
-//		seriesData1.put("data", data1);
-//		seriesData1.put("itemStyle",handleDataItemsStyle(1));
 		if(data!=null&&data.size()<6){
 			seriesData.put("barWidth", 60);
-//			seriesData1.put("barWidth", 30);
 		}
 		seriesList.add(seriesData);
-//		seriesList.add(seriesData1);
 		map.put("series", seriesList);
 		return map;
 	}
