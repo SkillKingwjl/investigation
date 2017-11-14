@@ -2,11 +2,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.zztaiwll</groupId>
-  <artifactId>project</artifactId>
+  <artifactId>investigation</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>project Maven Webapp</name>
+  <name>investigation</name>
   <url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
  <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -66,6 +70,6 @@
 	</dependency>
   </dependencies>
   <build>
-    <finalName>newproject</finalName>
+    <finalName>investigation</finalName>
   </build>
 </project>

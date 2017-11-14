@@ -359,15 +359,38 @@ function showChart(data){
 	$("#attr").html(attr);
 	var option={};
 	option.title={};
-	option.tooltip={};
-	option.legend=data.legend;
+	option.tooltip={
+        trigger: 'item',//是否节点触发
+        padding: 5,
+        formatter: function(a){
+            console.log(a);
+            return ('数量:'+a['value'] +"占比:"+a['data'].datas[0]+"%");
+        },
+    }
+    option.legend=data.legend;
 	option.xAxis=data.xAxis;
 	option.yAxis={};
-	option.series=data.series;
+	option.series=analysis(data.series);
+
 /* 	alert(JSON.stringify(option)) */
 	myChart.setOption(option,true); 
 }
+function analysis(data) {
 
+    var end_obj = data;
+    for (i in data) {
+        var dataArr = data[i].data;
+        for (j in dataArr){
+            var obj = {name:'',datas:[]};
+            obj.name = data[i].name;
+            obj.value = dataArr[j]['data'];
+            obj.datas[0] = dataArr[j]['data1'];
+            dataArr[j]=obj;
+        }
+        end_obj.data=dataArr;
+    }
+    return end_obj;
+}
 function getthischardata(){
 	getChartData(local_info_id)
 }

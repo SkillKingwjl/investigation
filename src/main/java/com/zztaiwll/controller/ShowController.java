@@ -104,8 +104,7 @@ public class ShowController extends Controller {
 		String attr=addInfo.getStr("attr");
 		map.put("attr", attr);
 		List<Integer> dataName=new ArrayList<Integer>();
-		List<Long> data=new ArrayList<Long>();
-		List<String> data1 = new ArrayList<String>();
+		List<Map<String,Object>> data=new ArrayList<Map<String,Object>>();
 		for(VillageResearch info:list){
 			String result=info.getStr("result");
 			if(!isDecimal(result)){
@@ -129,11 +128,13 @@ public class ShowController extends Controller {
 				 continue;
 			 }
 			dataName.add((int)Double.parseDouble(result));
-			data.add(info.getLong("num"));
+			Map<String,Object> dataMap = new HashMap<String,Object>() ;
+			dataMap.put("data",info.getLong("num"));
 			DecimalFormat df = new DecimalFormat("######0.00");
 			double  bai = info.getBigDecimal("bai").setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue()*100;
 			String str = df.format(bai);
-			data1.add(str);
+			dataMap.put("data1",str);
+			data.add(dataMap);
 		}
 		if(data==null||data.size()==0){
 			return null;
@@ -143,12 +144,12 @@ public class ShowController extends Controller {
 		dataMap.put("type", "category");
 		dataMap.put("boundaryGap", true);
 		dataMap.put("data", dataName);
-		Map<String,Object> dataMap1=new HashMap<String,Object>();
-		dataMap1.put("type", "category");
-		dataMap1.put("boundaryGap", true);
-		dataMap1.put("data", dataName);
+//		Map<String,Object> dataMap1=new HashMap<String,Object>();
+//		dataMap1.put("type", "category");
+//		dataMap1.put("boundaryGap", true);
+//		dataMap1.put("data", dataName);
 		xAxis.add(dataMap);
-		xAxis.add(dataMap1);
+//		xAxis.add(dataMap1);
 		map.put("xAxis", xAxis);
 		List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 		Map<String,Object> seriesData=new HashMap<String,Object>();
@@ -156,16 +157,17 @@ public class ShowController extends Controller {
 		seriesData.put("type", "bar");
 		seriesData.put("data", data);
 		seriesData.put("itemStyle",handleDataItemsStyle(1));
-		Map<String,Object> seriesData1=new HashMap<String,Object>();
-		seriesData1.put("name", attr);
-		seriesData1.put("type", "line");
-		seriesData1.put("data", data1);
-		seriesData1.put("itemStyle",handleDataItemsStyle(1));
+//		Map<String,Object> seriesData1=new HashMap<String,Object>();
+//		seriesData1.put("name", attr);
+//		seriesData1.put("type", "bar");
+//		seriesData1.put("data", data1);
+//		seriesData1.put("itemStyle",handleDataItemsStyle(1));
 		if(data!=null&&data.size()<6){
-			seriesData.put("barWidth", 30);
+			seriesData.put("barWidth", 60);
+//			seriesData1.put("barWidth", 30);
 		}
 		seriesList.add(seriesData);
-		seriesList.add(seriesData1);
+//		seriesList.add(seriesData1);
 		map.put("series", seriesList);
 		return map;
 	}
@@ -276,13 +278,12 @@ public class ShowController extends Controller {
 				 continue;
 			 }
 			 Map<String,Object> itemsMap=new HashMap<String,Object>();
-			 Map<String,Object> itemsMap1=new HashMap<String,Object>();
 			 List<VillageResearch> dataItemsList=showService.getShowVillageDataByInfoIdAndAddress(info_id, address_id, resultParams);
-			 List<Long> dataItem=new ArrayList<Long>();
-			 List<String> dataItem1 = new ArrayList<String>();
+			 List<Map<String,Object>> data=new ArrayList<Map<String,Object>>();
 			 for(VillageResearch vill:dataItemsList){
+				 Map<String,Object> dataMap = new HashMap<String,Object>() ;
 				 long num=vill.getLong("num");
-				 dataItem.add(num);
+				 dataMap.put("data",num);
 				 DecimalFormat df = new DecimalFormat("######0.00");
 				 double  bai;
 				 if (address_id==0){
@@ -291,17 +292,13 @@ public class ShowController extends Controller {
 					 bai = vill.getDouble("bai") * 100;
 				 }
 				 String str = df.format(bai);
-				 dataItem1.add(str);
+				 dataMap.put("data1",str);
+				 data.add(dataMap);
 			 }
 			 itemsMap.put("type", "bar");
 			 itemsMap.put("name",  (int)Double.parseDouble(resultParams));
-			 itemsMap.put("data", dataItem);
+			 itemsMap.put("data", data);
 			 itemsMap.put("itemStyle",handleDataItemsStyle(i));
-			 itemsMap.put("barWidth", 30);
-			 itemsMap1.put("type", "line");
-			 itemsMap1.put("name",  (int)Double.parseDouble(resultParams));
-			 itemsMap1.put("data", dataItem1);
-			 seriesList.add(itemsMap1);
 			 seriesList.add(itemsMap);
 		 }
 		 return seriesList;
@@ -332,27 +329,22 @@ public class ShowController extends Controller {
 				 continue;
 			 }
 			 Map<String,Object> itemsMap=new HashMap<String,Object>();
-			 Map<String,Object> itemsMap1=new HashMap<String,Object>();
+			 List<Map<String,Object>> data=new ArrayList<Map<String,Object>>();
 			 List<VillageResearch> dataItemsList=showService.getShowVillageDataByInfoIdAndTime(info_id,year,resultParams);
-			 List<Long> dataItem=new ArrayList<Long>();
-			 List<String> dataItem1=new ArrayList<String>();
 			 for(VillageResearch vill:dataItemsList){
+				 Map<String,Object> dataMap = new HashMap<String,Object>() ;
 				 long num=vill.getLong("num");
-				 dataItem.add(num);
+				 dataMap.put("data",num);
 				 DecimalFormat df = new DecimalFormat("######0.00");
 				 double  bai = vill.getBigDecimal("bai").setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue()*100;
 				 String str = df.format(bai);
-				 dataItem1.add(str);
+				 dataMap.put("data1",str);
+				 data.add(dataMap);
 			 }
 			 itemsMap.put("type", "bar");
 			 itemsMap.put("name", (int)Double.parseDouble(resultParams));
-			 itemsMap.put("data", dataItem);
-			 itemsMap1.put("type", "line");
-			 itemsMap1.put("name", (int)Double.parseDouble(resultParams));
-			 itemsMap1.put("data", dataItem1);
-			 itemsMap.put("itemStyle",handleDataItemsStyle(i));
+			 itemsMap.put("data", data);
 			 seriesList.add(itemsMap);
-			 seriesList.add(itemsMap1);
 			 i++;
 		 }
 		 return seriesList;

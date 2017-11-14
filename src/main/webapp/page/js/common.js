@@ -1,5 +1,5 @@
 var property=0
-var totalUrl="/newproject";
+var totalUrl="/investigation";
 function vilidation(){
 		$.ajax({
 	            url:totalUrl+"/login/validLogin",
