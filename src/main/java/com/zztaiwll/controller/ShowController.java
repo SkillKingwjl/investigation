@@ -138,6 +138,7 @@ public class ShowController extends Controller {
             double bai = info.getBigDecimal("bai").setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue() * 100;
             String str = df.format(bai);
             dataMap.put("data1", str);
+            dataMap.put("result", resultParams);
             data.add(dataMap);
         }
         if (data == null || data.size() == 0) {
@@ -206,12 +207,7 @@ public class ShowController extends Controller {
         dataMap.put("type", "category");
         dataMap.put("boundaryGap", true);
         dataMap.put("data", dataName);
-        Map<String, Object> dataMap1 = new HashMap<String, Object>();
-        dataMap.put("type", "category");
-        dataMap.put("boundaryGap", true);
-        dataMap.put("data", dataName);
         xAxis.add(dataMap);
-        xAxis.add(dataMap1);
         map.put("xAxis", xAxis);
         List<Map<String, Object>> seriesList = handleYearData(info_id, address_id);
         map.put("series", seriesList);
@@ -292,6 +288,7 @@ public class ShowController extends Controller {
                 }
                 String str = df.format(bai);
                 dataMap.put("data1", str);
+                dataMap.put("result", result);
                 data.add(dataMap);
             }
             itemsMap.put("type", "bar");
@@ -341,6 +338,7 @@ public class ShowController extends Controller {
                 double bai = vill.getBigDecimal("bai").setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue() * 100;
                 String str = df.format(bai);
                 dataMap.put("data1", str);
+                dataMap.put("result", result);
                 data.add(dataMap);
             }
             itemsMap.put("type", "bar");

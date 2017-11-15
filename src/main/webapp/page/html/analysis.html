@@ -364,7 +364,7 @@ function showChart(data){
         trigger: 'item',//是否节点触发
         padding: 5,
         formatter: function(a){
-            return ('数量:'+a['value'] +"占比:"+a['data'].datas[0]+"%");
+            return (a['data'].datas[1]+'-->数量:'+a['value'] +"占比:"+a['data'].datas[0]+"%");
         },
     }
     option.legend=data.legend;
@@ -385,6 +385,7 @@ function analysis(data) {
             obj.name = data[i].name;
             obj.value = dataArr[j]['data'];
             obj.datas[0] = dataArr[j]['data1'];
+            obj.datas[1] = dataArr[j]['result'];
             dataArr[j]=obj;
         }
         end_obj.data=dataArr;
