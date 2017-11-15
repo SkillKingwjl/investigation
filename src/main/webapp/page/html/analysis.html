@@ -81,8 +81,8 @@
           <div id="selectAddress" style="margin-top:5px;margin-bottom:5px">
            <form class="navbar-form navbar-left">
                <div class="form-group">
-                   <select class="form-control"  style="width:150px;" id="address" onchange="getThisdata()">
-                   	
+                   <select class="form-control"  style="width:150px;" id="address" >
+
                    </select>
                </div>
            </form>
@@ -173,6 +173,7 @@ function handlerAnalysisList(data,num){
 	  });
 	  $("#parentList").html(url);
 }
+
 function skintotype(type){
 	local_type=type
 	styleType(type)
@@ -363,7 +364,6 @@ function showChart(data){
         trigger: 'item',//是否节点触发
         padding: 5,
         formatter: function(a){
-            console.log(a);
             return ('数量:'+a['value'] +"占比:"+a['data'].datas[0]+"%");
         },
     }
