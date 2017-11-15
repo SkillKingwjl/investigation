@@ -273,7 +273,7 @@ public class ShowController extends Controller {
             List<VillageResearch> dataItemsList = showService.getShowVillageDataByInfoIdAndAddress(info_id, address_id, resultParams);
             List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
             for (VillageResearch vill : dataItemsList) {
-                if (StringUtils.isBlank(vill.get("result").toString())) {
+                if (vill.getLong("num")==0) {
                     continue;
                 }
                 Map<String, Object> dataMap = new HashMap<String, Object>();
