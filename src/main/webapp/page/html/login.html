@@ -4,37 +4,37 @@
     <meta charset="UTF-8">
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/page.css" rel="stylesheet">
-    <title>登陆</title>           
+    <title>登陆</title>
 </head>
-<body>
+<body class="bodycss">
 <header class="main-header" style="background-image: url(../img/test.jpg)">
 	<div style="width:100%;height:200px"></div>
 </header>
-<nav class="navbar navbar-default row" >
+<nav class="navbar navbar-default row button" >
     <div class="col-lg-2 col-md-2"></div>
     <div class="container-fluid col-lg-8 col-md-8">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav contents menu" >
                 <li class="nav-current">
-                    <button type="button" class="btn btn-default navbar-btn active" onclick="skinto(1)">首页</button>
+                    <button type="button" class="btn btn-default navbar-btn button" onclick="skinto(1)">首页</button>
                 </li>
                 <li class="nav-current">
-                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(2)">浏览查询</button>
+                    <button type="button" class="btn btn-default navbar-btn button" onclick="skinto(2)">浏览查询</button>
                 </li>
                 <li class="nav-current">
-                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(3)">分析报告</button>
+                    <button type="button" class="btn btn-default navbar-btn button" onclick="skinto(3)">分析报告</button>
                 </li>
                 <li class="nav-current">
-                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(4)">数据分析</button>
+                    <button type="button" class="btn btn-default navbar-btn button" onclick="skinto(4)">数据分析</button>
                 </li>
                 <li class="nav-current">
-                    <button type="button" class="btn btn-default navbar-btn " onclick="skinto(5)">数据录入</button>
+                    <button type="button" class="btn btn-default navbar-btn button" onclick="skinto(5)">数据录入</button>
                 </li>
                 <li class="nav-current">
-                    <button type="button" class="btn btn-default navbar-btn" onclick="skinto(6)">管理账号</button>
+                    <button type="button" class="btn btn-default navbar-btn button" onclick="skinto(6)">管理账号</button>
                 </li>
                  <li class="nav-current">
-                    <button type="button" class="btn btn-default navbar-btn" onclick="logout()">安全注销</button>
+                    <button type="button" class="btn btn-default navbar-btn button" onclick="logout()">安全注销</button>
                 </li>
             </ul>
         </div>
@@ -44,16 +44,16 @@
 <div class="media">
     <div class="media-left media-middle">
         <a href="#">
-            <img src="../img/ss.png" alt="..." class="media-object img-rounded" style="width: 400px">
+           <img src="../img/ss.jpg" alt="..." class="media-object img-rounded" style="width: 450px">
         </a>
     </div>
     <div class="media-body">
         <div class="page-header">
             <h2>幸福新农村建设调研与分析系统</h2>
         </div>
-       
+
         <div class="container row">
-            <div class="col-lg-8 col-md-8  col- well">
+            <div class="col-lg-8 col-md-8  col- well ">
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为了贯彻落实《中共中央国务院关于落实发展新理念、加快农业现代化、实现全面小康社会目标的若干意见》，教育部人文社科重点研究基地—西北大学中国西部经济发展研究中心联合西北大学经济管理学院社会调查与数据分析中心，组织在校大学生面向村干部进行问卷调查，以期全面反映“幸福新农村建设情况”，为政府推进幸福新村建设工作提供决策依据。本数据库就是基于此调查与分析而建成。</p>
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;教育部人文社科重点研究基地—西北大学中国西部经济发展研究中心</p>
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -73,7 +73,7 @@
                     <span id="pwderror" style="color:red"></span>
                 </div>
 
-                <button type="button" class="btn btn-default" onclick="login()">登陆</button>
+                <button type="button" class="btn btn-default button" onclick="login()">登陆</button>
             </form>
         </div>
     </div>
@@ -112,7 +112,7 @@ function vilidation(){
             }
         }
     });
-}	
+}
 function login(){
     var name= $("#username").val();
     var pwd= $("#password").val();

@@ -5196,16 +5196,23 @@ a.thumbnail.active {
 .media {
   margin-top: 15px;
 }
+.bodycss{
+  background-image: linear-gradient(to top,	#6CA6CD,#7EC0EE);
+}
+.button{
+  background-color: #7EC0EE;
+  color: #ffffff;
+}
 .media:first-child {
   margin-top: 0;
 }
 .media,
 .media-body {
-  overflow: hidden;
+  margin-left: 20px;
   zoom: 1;
 }
 .media-body {
-  width: 10000px;
+  width: 100%;
 }
 .media-object {
   display: block;
@@ -6754,4 +6761,11 @@ button.close {
     display: none !important;
   }
 }
+p{
+  font-size: 14px;
+}
+input{
+  background: #87CEFF;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
