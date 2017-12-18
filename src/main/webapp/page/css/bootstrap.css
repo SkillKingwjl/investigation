@@ -6783,5 +6783,11 @@ input{
   background-size: cover;
   vertical-align: middle;
 }
+.p1{
+  line-height:25px;
+  padding: 0px;
+  margin: 0px;
+  align:right;
+}
 
 /*# sourceMappingURL=bootstrap.css.map */

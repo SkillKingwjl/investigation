@@ -79,7 +79,7 @@
 	
 	function handlerData(data){
 		  var url="<table class='table table-bordered table-hover table-responsive'>"
-			  url+="<tr><th>表格属性</th><th>属性详情</th><th>属性值</th></tr>";
+			  url+="<tr><th>表格属性</th><th>属性值</th><th>属性详情</th></tr>";
 		   $("#data").append(url);
 		  $.each(data,function(n,value){
 		  		var id=value.id;
@@ -87,7 +87,7 @@
 		  		var name=value.name;
 		  		var attr=value.attr;
 		  		var result=value.result;
-		  		url+="<tr><td>"+name+"</td><td>"+attr+"</td><td>"+result+"</td></tr>";
+		  		url+="<tr><td>"+name+"</td><td>"+result+"</td><td>"+attr+"</td></tr>";
 		  });
 		  url+="</table>"
 		  $("#data").html(url);
@@ -95,7 +95,7 @@
 	
 	function handlerDataClear(){
 		var url="<table class='table table-bordered table-hover table-responsive'>"
-			url+="<tr><th>表格属性</th><th>属性详情</th><th>属性值</th></tr>";
+			url+="<tr><th>表格属性</th><th>属性值</th><th>属性详情</th></tr>";
 		    url+="</table>"
 	    $("#data").html(url);
 	}
